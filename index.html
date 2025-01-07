@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bathroom Counter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .person {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .person:last-child {
+      border-bottom: none;
+    }
+    .counters {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .counter-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    button {
+      padding: 5px 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.pipi {
+      background-color: #FFF176; /* Soft yellow */
+      color: black;
+    }
+    button.popo {
+      background-color: #5D4037; /* Dark brown */
+      color: white;
+    }
+    button.decrement {
+      background-color: #FF9800; /* Orange */
+      color: white;
+    }
+    button.increment {
+      background-color: #2196F3; /* Blue */
+      color: white;
+    }
+    span.counter {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bathroom Counter</h1>
+    <div id="people-list">
+      <!-- People counters will be dynamically added here -->
+    </div>
+  </div>
+
+  <script>
+    const people = ["Hasvel", "Miguelon", "Nuria", "Neto", "Lupita", "Andres", "Mario", "Armando", "Leo", "Tiger"];
+
+    const peopleList = document.getElementById('people-list');
+
+    people.forEach(person => {
+      const personDiv = document.createElement('div');
+      personDiv.classList.add('person');
+
+      personDiv.innerHTML = `
+        <span>${person}</span>
+        <div class="counters">
+          <div class="counter-group">
+            <button class="decrement" onclick="decrement('${person}', 'pipi')">-</button>
+            <button class="pipi" id="${person}-pipi">Pipi: 0</button>
+            <button class="increment" onclick="increment('${person}', 'pipi')">+</button>
+          </div>
+          <div class="counter-group">
+            <button class="decrement" onclick="decrement('${person}', 'popo')">-</button>
+            <button class="popo" id="${person}-popo">💩 Popo: 0</button>
+            <button class="increment" onclick="increment('${person}', 'popo')">+</button>
+          </div>
+        </div>
+      `;
+
+      peopleList.appendChild(personDiv);
+    });
+
+    const counts = {};
+    people.forEach(person => {
+      counts[person] = { pipi: 0, popo: 0 };
+    });
+
+    function increment(person, type) {
+      counts[person][type]++;
+      updateCounter(person, type);
+    }
+
+    function decrement(person, type) {
+      if (counts[person][type] > 0) {
+        counts[person][type]--;
+        updateCounter(person, type);
+      }
+    }
+
+    function updateCounter(person, type) {
+      const button = document.getElementById(`${person}-${type}`);
+      button.textContent = `${type === 'pipi' ? 'Pipi' : '💩 Popo'}: ${counts[person][type]}`;
+    }
+  </script>
+</body>
+</html>
